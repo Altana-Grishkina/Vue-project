@@ -1,6 +1,6 @@
 <template>
     <navbar :pages="pages" :active-page="activePage" :nav-link-click="(index) => activePage = index"></navbar>
-    <page-viewer :page="pages[activePage]"></page-viewer>
+    <page-viewer v-if="pages.length > 0" :page="pages[activePage]"></page-viewer>
 </template>
 
 <script>
@@ -12,18 +12,22 @@ export default ({
         PageViewer,
         Navbar
     },
+
+    created() {
+        this.getPages();
+    },
     data() {
         return {
             activePage: 0,
-            pages: [
-
-            ]
+            pages: []
         };
     },
     methods: {
         async getPages() {
             let res = await fetch('page.json');
             let data = await res.json();
+
+            this.pages = data;
         }
     }
 })
