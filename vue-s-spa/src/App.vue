@@ -2,6 +2,7 @@
     <navbar :pages="pages" :active-page="activePage" :nav-link-click="(index) => activePage = index"></navbar>
     <!-- <page-viewer v-if="pages.length > 0" :page="pages[activePage]"></page-viewer> -->
 
+    <div v-show="false">hide this content</div>
     <create-page :page-created="pageCreated"></create-page>
 </template>
 
@@ -32,11 +33,12 @@ export default ({
             let data = await res.json();
 
             this.pages = data;
+        },
+        pageCreated(pageObj) {
+            this.pages.push(pageObj);
         }
-    },
-    pageCreated(pageObj) {
-        this.pages.push(pageObj);
     }
+
 })
 
 </script>
