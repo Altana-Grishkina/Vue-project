@@ -13,8 +13,32 @@
                 </label>
                 <textarea type="text" class="form-control" rows="5" v-model="content"></textarea>
             </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label>
+                        Link Text
+                    </label>
+                    <input type="text" class="form-control" v-model="linkText">
+                </div>
+                <div class="mb-3">
+                    <label>
+                        Link URL
+                    </label>
+                    <input type="text" class="form-control" v-model="linkUrl">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox">
+                    <label class="form-check-label" for="gridCheck1">
+                        Published
+                    </label>
+                </div>
+            </div>
+
+
             <div class="mb-3">
-                <button class="btn btn-primary" @click.prevent="pageCreated({ pageTitle, content })">
+                <button class="btn btn-primary" :disabled="isFormInvalid" @click.prevent="submitForm">
                     Create Page
                 </button>
             </div>
@@ -24,10 +48,35 @@
 <script>
 export default {
     props: ['pageCreate'],
+    computed: {
+        isFormInvalid() {
+            return !this.pageTitle || !this.content || !this.linkText || !this.linkUrl;
+        }
+    },
     data() {
         return {
             pageTitle: '',
-            content: ''
+            content: '',
+            linkText: '',
+            linkUrl: ''
+        }
+    },
+    methods: {
+        submitForm() {
+            if (!this.pageTitle || !this.content || !this.linkText || !this.linkUrl) {
+                alert('Please fill the form.');
+                return;
+            }
+
+
+            this.pageCreated({
+                pageTitle: this.pageTitle,
+                content: this.content,
+                link: {
+                    text: this.linkText,
+                    url: this.linkUrl
+                }
+            });
         }
     }
 }
