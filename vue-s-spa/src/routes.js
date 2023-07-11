@@ -1,15 +1,11 @@
-import {
-  createRouter,
-  createWebHashHistory,
-  createWebHistory,
-} from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 import PageViewer from "./components/PageViewer.vue";
 import CreatePage from "./components/CreatePage.vue";
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes: [
-    { path: "/", component: PageViewer },
+    { path: "/:index?", component: PageViewer },
     { path: "/create", component: CreatePage },
   ],
 });
