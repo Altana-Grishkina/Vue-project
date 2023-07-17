@@ -37,8 +37,10 @@
 
             <div class="mb-3">
                 <button class="btn btn-primary me-2" @click.prevent="submit">Edit</button>
-                <button class="btn btn-secondary"
+                <button class="btn btn-secondary me-2"
                             @click.prevent="goToPagesList">Cancel</button>
+                <button class="btn btn-danger"
+                            @click.prevent="deletePage">Delete</button>
             </div>
 
             <div class="mb-3">
@@ -54,6 +56,7 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import { inject } from 'vue';
+import PagesList from './PagesList.vue';
 
 const router = useRouter();
 const pages = inject('$pages');
@@ -70,9 +73,19 @@ function submit() {
         index,
         page
     });
+
+    goToPagesList(); 
 }
 
-goToPagesList(); 
+function deletePage() {
+    PagesList.removePage(index);
+
+    bus.$emit('page-deleted', {
+        index
+    });
+
+    goToPagesList(); 
+}
 
 function goToPagesList() {
     router.push({path: '/pages'});
